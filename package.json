@@ -1,0 +1,27 @@
+{
+  "name": "bhic-mocha-chai-tools",
+  "version": "1.0.0",
+  "description": "Mocha &amp; chai tools for Bilderhic",
+  "main": "entry-point.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcnvdl/bhic-mocha-chai-tools.git"
+  },
+  "author": "lcnvdl",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/lcnvdl/bhic-mocha-chai-tools/issues"
+  },
+  "homepage": "https://github.com/lcnvdl/bhic-mocha-chai-tools#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0"
+  },
+  "dependencies": {
+    "camelcase": "^6.1.0",
+    "tangular": "^2.0.1"
+  }
+}
