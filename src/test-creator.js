@@ -30,7 +30,7 @@ class TestCreator {
       className = className.substr(0, className.indexOf(";"));
     }
 
-    this._writeClassTests(filename, className);
+    return this._writeClassTests(filename, className);
   }
 
   _writeClassTests(filename, className) {
@@ -38,13 +38,24 @@ class TestCreator {
 
     const template = this.fs.readFileSync(path.join(templatesFolder, "class-test.template"), "utf8");
 
-    const content = Tangular.render(template, { className, classNameForType, filename });
+    let requiredFilenameInsideTest = path
+      .normalize(path.join("../", filename))
+      .split("\\")
+      .join("/");
+
+    if (requiredFilenameInsideTest.endsWith(".js")) {
+      requiredFilenameInsideTest = requiredFilenameInsideTest.substr(0, requiredFilenameInsideTest.indexOf(".js"));
+    }
+
+    const content = Tangular.render(template, { className, classNameForType, filename: requiredFilenameInsideTest });
 
     const testFilename = `${path.basename(filename, ".js")}.test.js`;
 
     const testFile = path.join(process.cwd(), "test", testFilename);
 
     this.fs.writeFileSync(testFile, content, "utf8");
+
+    return testFile;
   }
 }
 

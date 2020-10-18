@@ -12,16 +12,18 @@ module.exports = ({ CommandBase, commands }) => {
      * @param {string[]} args Arguments
      */
     async run(args) {
-      if (args[i] === "--help" || args[i] === "-h") {
-        return this._showHelp();
-      }
+      for (let i = 0; i < args.length; i++) {
+        if (args[i] === "--help" || args[i] === "-h") {
+          return this._showHelp();
+        }
 
-      if (args[i] === "install") {
-        return await this._install();
-      }
+        if (args[i] === "install") {
+          return await this._install();
+        }
 
-      if (args[i] === "create") {
-        return this._create(args.slice(i + 1));
+        if (args[i] === "create") {
+          return this._create(args.slice(i + 1));
+        }
       }
 
       return this.codes.invalidArguments;
@@ -37,7 +39,9 @@ module.exports = ({ CommandBase, commands }) => {
 
       const tc = new TestCreator();
 
-      tc.run(args[0]);
+      const testFileName = tc.run(args[0]);
+
+      console.log(`Test created: ${path.basename(testFileName)}`);
 
       return this.codes.success;
     }

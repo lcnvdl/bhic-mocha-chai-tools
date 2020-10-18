@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const {{ className }} = require("../{{filename}}")
+const {{ className }} = require("{{filename}}");
 
 /** @type {{classNameForType}} */
 let instance = null;
