@@ -57,9 +57,6 @@ module.exports = ({ CommandBase, commands }) => {
       console.log("Mocha Chai");
       console.log("install\t\tInstalls mocha and chai");
       console.log("create <path>");
-      // console.log("install <rule name>\t\tInstalls all the node dependencies and copies the rules file");
-      // console.log("update [-f or --force]\t\tUpdates the rules");
-      // console.log("copy <rule name>\t\tCopies the rules file");
       return this.codes.success;
     }
   }
