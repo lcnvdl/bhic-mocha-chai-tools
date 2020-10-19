@@ -75,7 +75,16 @@ class TestCreator {
 
     const testFilename = `${path.basename(filename, format)}.test${format}`;
 
-    const testFile = path.join(process.cwd(), "test", testFilename);
+    let testFolder = path.join(process.cwd(), "test");
+
+    if (!fs.existsSync(testFolder)) {
+      testFolder += "s";
+      if (!fs.existsSync(testFolder)) {
+        throw new Error("The test folder does not exists");
+      }
+    }
+
+    const testFile = path.join(testFolder, testFilename);
 
     this.fs.writeFileSync(testFile, content, "utf8");
 
