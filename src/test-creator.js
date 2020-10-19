@@ -57,6 +57,7 @@ class TestCreator {
 
   _writeClassTests(filename, className, fileType) {
     const classNameForType = `{${className}}`;
+    const classNameForImport = `{ ${className} }`;
 
     const template = this.fs.readFileSync(path.join(templatesFolder, `class-test.${fileType}.template`), "utf8");
 
@@ -71,7 +72,12 @@ class TestCreator {
       requiredFilenameInsideTest = requiredFilenameInsideTest.substr(0, requiredFilenameInsideTest.indexOf(format));
     }
 
-    const content = Tangular.render(template, { className, classNameForType, filename: requiredFilenameInsideTest });
+    const content = Tangular.render(template, {
+      className,
+      classNameForType,
+      classNameForImport,
+      filename: requiredFilenameInsideTest
+    });
 
     const testFilename = `${path.basename(filename, format)}.test${format}`;
 

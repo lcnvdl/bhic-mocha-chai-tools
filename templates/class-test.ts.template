@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import {{ classNameForType }}  from "{{filename}}";
+import {{ classNameForImport }}  from "{{filename}}";
 
 let instance: {{ className }} = null;
 
