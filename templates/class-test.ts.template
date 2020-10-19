@@ -1,0 +1,17 @@
+import { expect } from "chai";
+const {{ className }} = require("{{filename}}");
+
+/** @type {{classNameForType}} */
+let instance = null;
+
+describe("{{ className }}", () => {
+  beforeEach(() => {
+    instance = new {{ className }}();
+  });
+
+  describe("#constructor", () => {
+    it("should work fine", () => {
+      expect(instance).to.be.ok;
+    });
+  });
+});

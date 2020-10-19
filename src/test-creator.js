@@ -9,20 +9,42 @@ class TestCreator {
   }
 
   /**
-   * @param {string} [filename] File name
+   * @param {string} filename File name
+   * @param {string} fileType File type
    * @param {string} [content] Content
    */
-  run(filename, content) {
+  run(filename, fileType, content) {
     if (!content) {
       content = this.fs.readFileSync(filename, "utf8");
     }
 
     const lines = (content || "").trim().split("\n").map(m => m.trim()).filter(m => m && m !== "");
 
+    let className = this._getClassNameFromModule(lines) ||
+      this._getClassNameFromExports(lines);
+
+    if (!className) {
+      return null;
+    }
+
+    return this._writeClassTests(filename, className, fileType);
+  }
+
+  _getClassNameFromExports(lines) {
+    let className = lines.find(m => m.startsWith("export class"));
+    if (!className) {
+      return null;
+    }
+
+    className = className.trim().split(" ")[2];
+
+    return className;
+  }
+
+  _getClassNameFromModule(lines) {
     let className = lines.find(m => m.startsWith("module.exports"));
     if (!className) {
-      console.log("Class name not found");
-      return;
+      return null;
     }
 
     className = className.substr(className.indexOf("=") + 1).trim();
@@ -30,26 +52,28 @@ class TestCreator {
       className = className.substr(0, className.indexOf(";"));
     }
 
-    return this._writeClassTests(filename, className);
+    return className;
   }
 
-  _writeClassTests(filename, className) {
+  _writeClassTests(filename, className, fileType) {
     const classNameForType = `{${className}}`;
 
-    const template = this.fs.readFileSync(path.join(templatesFolder, "class-test.template"), "utf8");
+    const template = this.fs.readFileSync(path.join(templatesFolder, `class-test.${fileType}.template`), "utf8");
 
     let requiredFilenameInsideTest = path
       .normalize(path.join("../", filename))
       .split("\\")
       .join("/");
 
-    if (requiredFilenameInsideTest.endsWith(".js")) {
-      requiredFilenameInsideTest = requiredFilenameInsideTest.substr(0, requiredFilenameInsideTest.indexOf(".js"));
+    const format = `.${fileType}`;
+
+    if (requiredFilenameInsideTest.endsWith(format)) {
+      requiredFilenameInsideTest = requiredFilenameInsideTest.substr(0, requiredFilenameInsideTest.indexOf(format));
     }
 
     const content = Tangular.render(template, { className, classNameForType, filename: requiredFilenameInsideTest });
 
-    const testFilename = `${path.basename(filename, ".js")}.test.js`;
+    const testFilename = `${path.basename(filename, format)}.test${format}`;
 
     const testFile = path.join(process.cwd(), "test", testFilename);
 

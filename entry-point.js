@@ -26,7 +26,7 @@ module.exports = ({ CommandBase, commands }) => {
         }
       }
 
-      return this.codes.invalidArguments;
+      return this._showHelp();
     }
 
     /**
@@ -39,7 +39,7 @@ module.exports = ({ CommandBase, commands }) => {
 
       const tc = new TestCreator();
 
-      const testFileName = tc.run(args[0]);
+      const testFileName = tc.run(args[0], args[1] || "js");
 
       console.log(`Test created: ${path.basename(testFileName)}`);
 
@@ -56,7 +56,7 @@ module.exports = ({ CommandBase, commands }) => {
     _showHelp() {
       console.log("Mocha Chai");
       console.log("install\t\tInstalls mocha and chai");
-      console.log("create <path>");
+      console.log("create <path> [js | ts]");
       return this.codes.success;
     }
   }

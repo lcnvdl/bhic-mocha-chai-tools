@@ -14,4 +14,18 @@ describe("TestCreator", () => {
       expect(instance).to.be.ok;
     });
   });
+
+  describe("#_getClassNameFromExports", () => {
+    it("should work fine", () => {
+      const lines = [
+        "",
+        "export class User {",
+        "}",
+        ""
+      ];
+
+      const className = instance._getClassNameFromExports(lines);
+      expect(className).to.equals("User");
+    });
+  });
 });
